@@ -1,0 +1,16 @@
+version: '2'
+
+services:
+  mail-server:
+    build: .
+    container_name: mail-proxy
+    hostname: mail.example.loc
+    domainname: example.loc
+    volumes:
+      - ./var/log:/var/log:rw
+      - ./var/spool/postfix:/var/spool/postfix:rw
+    privileged: true
+    restart: unless-stopped
+    ports:
+      - "25:25"
+      # - "587:587"

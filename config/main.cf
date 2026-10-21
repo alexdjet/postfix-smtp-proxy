@@ -1,0 +1,13 @@
+relayhost = [smtp.relay.example]:587
+smtp_sasl_auth_enable = yes
+smtp_sasl_security_options = noanonymous
+smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
+smtp_tls_security_level = secure
+#smtp_tls_mandatory_protocols = !SSLv2, !SSLv3, !TLSv1, !TLSv1.1
+#smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
+minimal_backoff_time = 3600s
+maximal_backoff_time = 21600s
+queue_run_delay = 1800s
+maximal_queue_lifetime = 5d
+notify_classes = bounce, 2bounce, delay, policy, protocol, resource, software
+
