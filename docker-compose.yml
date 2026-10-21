@@ -7,8 +7,13 @@ services:
     hostname: mail.example.loc
     domainname: example.loc
     volumes:
+      #- ./config/master.cf:/etc/postfix/master.cf:ro
+      #- ./config/main.cf:/etc/postfix/main.cf:ro
+      #- ./config/sasl_passwd:/etc/postfix/sasl_passwd:ro
       - ./var/log:/var/log:rw
       - ./var/spool/postfix:/var/spool/postfix:rw
+      #- ./scripts/auto_freeze.sh:/usr/local/bin/auto_freeze.sh:ro
+      #- ./config/crontab:/etc/crontab:ro
     privileged: true
     restart: unless-stopped
     ports:

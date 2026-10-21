@@ -1,0 +1,4 @@
+user1@domain.com      smtp.provider1.com
+user2@domain.com      smtp.provider2.com
+@domain.com           smtp.default.com
+
