@@ -1,14 +1,45 @@
+myorigin = /etc/mailname
+smtpd_banner = $myhostname ESMTP $mail_name (Ubuntu)
+biff = no
+append_dot_mydomain = no
+readme_directory = no
+
+# TLS для входящих
+smtpd_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
+smtpd_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
+smtpd_use_tls=yes
+smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
+smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
+
+smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
+
+# Укажи реальное FQDN вместо localhost
+myhostname = mail.example.com
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+
+# mydestination: оставь только имя хоста, если почта уходит через relayhost
+mydestination = $myhostname
+
+# Новый relayhost
 relayhost = [smtp.relay.example]:587
+
+mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
+mailbox_size_limit = 0
+recipient_delimiter = +
+inet_interfaces = all
+inet_protocols = all
+
+# SASL и TLS для исходящих
 smtp_sasl_auth_enable = yes
 smtp_sasl_security_options = noanonymous
 smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
-sender_dependent_relayhost_maps = hash:/etc/postfix/sender_relay
 smtp_tls_security_level = secure
-#smtp_tls_mandatory_protocols = !SSLv2, !SSLv3, !TLSv1, !TLSv1.1
-#smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
+
 minimal_backoff_time = 3600s
 maximal_backoff_time = 21600s
 queue_run_delay = 1800s
 maximal_queue_lifetime = 5d
 notify_classes = bounce, 2bounce, delay, policy, protocol, resource, software
+
 

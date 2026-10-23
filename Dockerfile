@@ -6,8 +6,7 @@ RUN apk add --no-cache \
     ca-certificates \
     bash \
     tzdata \
-    busybox-extras \
-    supervisor
+    busybox-extras 
 
 # Копируем конфиги
 COPY config/main.cf /etc/postfix/main.cf
@@ -25,14 +24,11 @@ COPY ./scripts/auto_freeze.sh /usr/local/bin/auto_freeze.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh /usr/local/bin/auto_freeze.sh
 
 # Создаём структуру папок, которую ожидает Postfix
-RUN mkdir -p /var/log /var/spool/postfix /var/lib/postfix /etc/postfix
+#RUN mkdir -p /var/log /var/spool/postfix /var/lib/postfix /etc/postfix
 
 # Экспортируем часовой пояс
 ENV TZ=UTC
 
-# Конфиг supervisord
-COPY config/supervisord.conf /etc/supervisor/supervisord.conf
-#COPY config/supervisord.conf /etc/supervisor/conf.d/services.conf
-
 # Точка входа
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD ["postfix", "start-fg"]

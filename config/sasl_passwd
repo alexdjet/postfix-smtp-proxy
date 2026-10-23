@@ -1,1 +1,4 @@
-[smtp.relay.example]:587 user:password
+[smtp.provider1.com] userA:passA
+[smtp.provider2.com] userB:passB
+[smtp.relay.example] userC:passC
+

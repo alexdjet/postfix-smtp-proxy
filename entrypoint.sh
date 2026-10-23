@@ -8,20 +8,18 @@ fi
 
 SPOOL_DIR="/var/spool/postfix"
 
-
-
 # Исправляем владельца всей директории на root
-chown -R  postfix:postdrop "$SPOOL_DIR"
+#chown -R  postfix:postdrop "$SPOOL_DIR"
 
 #chown -R postdrop:postdrop "$SPOOL_DIR"
-chmod 750 "$SPOOL_DIR"
+#chmod 750 "$SPOOL_DIR"
 
 # Устанавливаем группу postdrop для нужных папок
-find "$SPOOL_DIR" -type d -exec chmod 750 {} \;
-find "$SPOOL_DIR" -type f -exec chmod 640 {} \;
+#find "$SPOOL_DIR" -type d -exec chmod 750 {} \;
+#find "$SPOOL_DIR" -type f -exec chmod 640 {} \;
 
 # Инициализация очереди и прав Postfix
-postfix setpermissions 2>/dev/null || true
+postfix set-permissions 2>/dev/null || true
 postfix queue 2>/dev/null || true
 
 # Устанавливаем cron (если ещё нет). --no-cache экономит место.
@@ -50,4 +48,5 @@ if [ "$(tail -c 1 "$CRONTAB_FILE")" != $'\n' ]; then
     echo "" >> "$CRONTAB_FILE"
 fi
 
-exec /usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf
+# Передаем управление основной команде (CMD)
+exec "$@"
