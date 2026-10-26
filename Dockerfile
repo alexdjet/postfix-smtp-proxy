@@ -15,6 +15,7 @@ COPY config/main.cf /etc/postfix/main.cf
 # Копируем секреты (лучше не делать так для чувствительных данных — см. ниже)
 COPY config/sasl_passwd /etc/postfix/sasl_passwd
 COPY config/sender_relay /etc/postfix/sender_relay
+COPY config/generic /etc/postfix/generic
 
 # Копируем entrypoint и скрипты
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh

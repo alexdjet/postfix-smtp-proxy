@@ -20,6 +20,7 @@ SPOOL_DIR="/var/spool/postfix"
 
 # Инициализация
 postmap /etc/postfix/sender_relay || 2>/dev/null || true
+postmap /etc/postfix/generic || 2>/dev/null || true
 postfix set-permissions 2>/dev/null || true
 postfix queue 2>/dev/null || true
 
