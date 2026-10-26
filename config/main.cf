@@ -14,17 +14,18 @@ smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
 smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
 
 # Укажи реальное FQDN вместо localhost
-myhostname = mail.example.com
-alias_maps = hash:/etc/aliases
-alias_database = hash:/etc/aliases
+myhostname = smtp.miroznai.loc
+#alias_maps = hash:/etc/aliases
+#alias_database = hash:/etc/aliases
 
 # mydestination: оставь только имя хоста, если почта уходит через relayhost
 mydestination = $myhostname
 
 # Новый relayhost
-relayhost = [smtp.relay.example]:587
+relayhost = [smtp.provider1.com]:587
+sender_dependent_relayhost_maps = hash:/etc/postfix/sender_relay
 
-mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
+mynetworks = 127.0.0.0/8 172.18.0.0/16
 mailbox_size_limit = 0
 recipient_delimiter = +
 inet_interfaces = all

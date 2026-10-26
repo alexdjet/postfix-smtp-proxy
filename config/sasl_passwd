@@ -1,4 +1,4 @@
 [smtp.provider1.com] userA:passA
 [smtp.provider2.com] userB:passB
-[smtp.relay.example] userC:passC
+[smtp.provider3.com] userC:passC
 

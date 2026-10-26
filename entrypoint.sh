@@ -18,7 +18,8 @@ SPOOL_DIR="/var/spool/postfix"
 #find "$SPOOL_DIR" -type d -exec chmod 750 {} \;
 #find "$SPOOL_DIR" -type f -exec chmod 640 {} \;
 
-# Инициализация очереди и прав Postfix
+# Инициализация
+postmap /etc/postfix/sender_relay || 2>/dev/null || true
 postfix set-permissions 2>/dev/null || true
 postfix queue 2>/dev/null || true
 

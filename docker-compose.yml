@@ -4,8 +4,8 @@ services:
   mail-server:
     build: .
     container_name: mail-proxy
-    hostname: mail.example.loc
-    domainname: example.loc
+    hostname: smtp.miroznai.loc
+    domainname: miroznai.loc
     volumes:
       #- ./var/log:/var/log:rw
       - ./var/spool/postfix:/var/spool/postfix:rw
@@ -14,3 +14,5 @@ services:
     ports:
       - "25:25"
       # - "587:587"
+    #extra_hosts:
+    #  - "miroznai.loc:172.18.0.2"
