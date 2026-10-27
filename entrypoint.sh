@@ -24,6 +24,11 @@ postmap /etc/postfix/generic || 2>/dev/null || true
 postfix set-permissions 2>/dev/null || true
 postfix queue 2>/dev/null || true
 
+# Создаем файл для логов и связываем его со stdout контейнера
+#touch /var/log/messages
+#ln -sf /dev/stdout /var/log/messages
+#syslogd -b 0
+
 # Устанавливаем cron (если ещё нет). --no-cache экономит место.
 if ! command -v crond > /dev/null 2>&1; then
     apk add --no-cache crond

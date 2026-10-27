@@ -25,7 +25,7 @@ COPY ./scripts/auto_freeze.sh /usr/local/bin/auto_freeze.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh /usr/local/bin/auto_freeze.sh
 
 # Создаём структуру папок, которую ожидает Postfix
-#RUN mkdir -p /var/log /var/spool/postfix /var/lib/postfix /etc/postfix
+RUN mkdir -p /var/log 
 
 # Экспортируем часовой пояс
 ENV TZ=UTC
