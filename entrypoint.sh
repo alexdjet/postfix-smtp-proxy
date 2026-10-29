@@ -8,52 +8,44 @@ fi
 
 SPOOL_DIR="/var/spool/postfix"
 
-# Исправляем владельца всей директории на root
-#chown -R  postfix:postdrop "$SPOOL_DIR"
-
-#chown -R postdrop:postdrop "$SPOOL_DIR"
-#chmod 750 "$SPOOL_DIR"
-
-# Устанавливаем группу postdrop для нужных папок
-#find "$SPOOL_DIR" -type d -exec chmod 750 {} \;
-#find "$SPOOL_DIR" -type f -exec chmod 640 {} \;
-
-# Инициализация
-postmap /etc/postfix/sender_relay || 2>/dev/null || true
-postmap /etc/postfix/generic || 2>/dev/null || true
+# Инициализация таблиц и прав Postfix
+postmap /etc/postfix/sender_relay 2>/dev/null || true
+postmap /etc/postfix/generic 2>/dev/null || true
 postfix set-permissions 2>/dev/null || true
 postfix queue 2>/dev/null || true
 
-# Создаем файл для логов и связываем его со stdout контейнера
-#touch /var/log/messages
-#ln -sf /dev/stdout /var/log/messages
-#syslogd -b 0
-
-# Устанавливаем cron (если ещё нет). --no-cache экономит место.
-if ! command -v crond > /dev/null 2>&1; then
-    apk add --no-cache crond
+# Установка cron, если его нет (в образе может не быть)
+if ! command -v cron > /dev/null 2>&1; then
+    apt-get update && apt-get install -y --no-install-recommends cron && rm -rf /var/lib/apt/lists/*
 fi
 
-# Создаём директорию для crontabs, если её нет (в Alpine она есть по умолчанию, но на всякий случай)
-mkdir -p /etc/crontabs
+# В Debian crontabs лежат в /var/spool/cron/crontabs, но для удобства часто используют /etc/cron.d или /etc/crontabs (если есть пакет cronie/etc.)
+# Стандартный путь в Debian: /var/spool/cron/crontabs/root
+CRONTAB_DIR="/var/spool/cron/crontabs"
+mkdir -p "$CRONTAB_DIR"
 
-# Проверяем наличие файла crontab для root.
-CRONTAB_FILE="/etc/crontabs/root"
+CRONTAB_FILE="$CRONTAB_DIR/root"
+
 if [ ! -f "$CRONTAB_FILE" ]; then
     touch "$CRONTAB_FILE"
 fi
 
-# Add task
+# Добавляем задачу в crontab root
+# Примечание: если файл уже содержит эту строку — будет дублирование. Для продакшена лучше проверять наличие строки.
 echo "*/5 * * * * /usr/local/bin/auto_freeze.sh" >> "$CRONTAB_FILE"
 
-# Исправляем права. Cron в Alpine игнорирует файлы с неправильными правами!
+# Права на crontab в Debian должны быть 600 и владелец root:root
 chown root:root "$CRONTAB_FILE"
 chmod 600 "$CRONTAB_FILE"
 
-# Проверка: убедимся, что в конце файла есть перевод строки (иначе задача не сработает)
+# Гарантируем, что в конце файла есть перевод строки (иначе cron может игнорировать последнюю строку)
 if [ "$(tail -c 1 "$CRONTAB_FILE")" != $'\n' ]; then
     echo "" >> "$CRONTAB_FILE"
 fi
 
-# Передаем управление основной команде (CMD)
+# Запускаем cron в фоне (отдельно от основного процесса)
+# Важно: cron должен работать, чтобы auto_freeze.sh выполнялся по расписанию
+cron &
+
+# Передаём управление основной команде (CMD)
 exec "$@"

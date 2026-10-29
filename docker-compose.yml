@@ -12,7 +12,7 @@ services:
     privileged: true
     restart: unless-stopped
     ports:
-      - "25:25"
+      - "8025:25"
       # - "587:587"
     #extra_hosts:
     #  - "miroznai.loc:172.18.0.2"
