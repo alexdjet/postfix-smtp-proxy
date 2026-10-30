@@ -1,5 +1,6 @@
 #FROM alpine:3.9
 FROM debian:buster
+#FROM debian:bookworm
 
 RUN sed -i 's|deb.debian.org|archive.debian.org|g' /etc/apt/sources.list \
     && sed -i '/security.debian.org/d' /etc/apt/sources.list
@@ -22,7 +23,7 @@ COPY ./scripts/auto_freeze.sh /usr/local/bin/auto_freeze.sh
 
 RUN chmod +x /usr/local/bin/entrypoint.sh /usr/local/bin/auto_freeze.sh
 
-RUN mkdir -p /var/log /var/spool/postfix /var/lib/postfix
+RUN mkdir -p /var/log /var/lib/postfix
 
 ENV TZ=UTC
 

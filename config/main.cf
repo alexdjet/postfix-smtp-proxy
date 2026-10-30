@@ -44,3 +44,4 @@ maximal_queue_lifetime = 5d
 notify_classes = bounce, 2bounce, delay, policy, protocol, resource, software
 
 smtp_generic_maps = hash:/etc/postfix/generic
+maillog_file = /var/log/mail.log
