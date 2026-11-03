@@ -3,8 +3,6 @@ services:
   mail-server:
     build: .
     container_name: mail-proxy
-    hostname: smtp.miroznai.loc
-    domainname: miroznai.loc
     volumes:
       #- ./var/log:/var/log:rw
       - ./var/spool/postfix:/var/spool/postfix:rw
