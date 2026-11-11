@@ -1,23 +1,39 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Если монтируется sasl_passwd — создаём hash-базу
+SPOOL_DIR="/var/spool/postfix"
+
 if [ -f /etc/postfix/sasl_passwd ]; then
+    chmod 640 /etc/postfix/sasl_passwd
+    chown root:postfix /etc/postfix/sasl_passwd
     postmap hash:/etc/postfix/sasl_passwd
 fi
 
-SPOOL_DIR="/var/spool/postfix"
 
 # Инициализация таблиц и прав Postfix
-postmap /etc/postfix/sender_relay 2>/dev/null || true
-postmap /etc/postfix/generic 2>/dev/null || true
-postfix set-permissions 2>/dev/null || true
-postfix queue 2>/dev/null || true
-
-# Установка cron, если его нет (в образе может не быть)
-if ! command -v cron > /dev/null 2>&1; then
-    apt-get update && apt-get install -y --no-install-recommends cron && rm -rf /var/lib/apt/lists/*
+if [ -f /etc/postfix/sender_relay ]; then
+    chmod 640 /etc/postfix/sender_relay
+    chown root:postfix /etc/postfix/sender_relay
+    postmap /etc/postfix/sender_relay
 fi
+
+if [ -f /etc/postfix/sender_canonical ]; then
+    chmod 640 /etc/postfix/sender_canonical
+    chown root:postfix /etc/postfix/sender_canonical
+    postmap /etc/postfix/sender_canonical
+fi
+
+if [ -f /etc/postfix/generic ]; then
+    chmod 640 /etc/postfix/generic
+    chown root:postfix /etc/postfix/generic
+    postmap /etc/postfix/generic
+fi
+
+
+
+
+postfix set-permissions
+postfix check
 
 # В Debian crontabs лежат в /var/spool/cron/crontabs, но для удобства часто используют /etc/cron.d или /etc/crontabs (если есть пакет cronie/etc.)
 # Стандартный путь в Debian: /var/spool/cron/crontabs/root
@@ -45,7 +61,7 @@ fi
 
 # Запускаем cron в фоне (отдельно от основного процесса)
 # Важно: cron должен работать, чтобы auto_freeze.sh выполнялся по расписанию
-cron &
+# cron &
 
 # Передаём управление основной команде (CMD)
 exec "$@"

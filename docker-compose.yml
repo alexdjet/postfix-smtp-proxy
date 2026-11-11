@@ -4,7 +4,6 @@ services:
     build: .
     container_name: mail-proxy
     volumes:
-      #- ./var/log:/var/log:rw
       - ./var/spool/postfix:/var/spool/postfix:rw
     privileged: true
     restart: unless-stopped

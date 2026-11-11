@@ -12,7 +12,13 @@ smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_una
 #alias_maps = hash:/etc/aliases
 #alias_database = hash:/etc/aliases
 
-relayhost = [smtp.provider1.com]:587
+# Global relayhost for all mail
+relayhost = [smtp.provider1.lan]:587
+
+sender_canonical_maps = hash:/etc/postfix/sender_canonical
+sender_canonical_classes = envelope_sender, header_sender
+
+# maps, если отправитель есть в этой карте, используется указанный для него relayhost, игнорируя глобальный
 sender_dependent_relayhost_maps = hash:/etc/postfix/sender_relay
 
 
@@ -29,7 +35,7 @@ smtp_sasl_security_options = noanonymous
 smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
 smtp_tls_security_level = secure
 
-mynetworks = 127.0.0.0/8 172.18.0.0/16
+mynetworks = 127.0.0.0/8 192.168.65.0/24
 mailbox_size_limit = 0
 recipient_delimiter = +
 inet_interfaces = all

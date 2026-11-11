@@ -1,6 +1,4 @@
-#FROM alpine:3.9
 FROM debian:buster
-#FROM debian:bookworm
 
 RUN sed -i 's|deb.debian.org|archive.debian.org|g' /etc/apt/sources.list \
     && sed -i '/security.debian.org/d' /etc/apt/sources.list
@@ -9,12 +7,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     postfix \
     ca-certificates \
     bash \
-    tzdata \
+    cron \
     && rm -rf /var/lib/apt/lists/*
 
 COPY config/main.cf /etc/postfix/main.cf
 
 COPY config/sasl_passwd /etc/postfix/sasl_passwd
+COPY config/sender_canonical /etc/postfix/sender_canonical
 COPY config/sender_relay /etc/postfix/sender_relay
 COPY config/generic /etc/postfix/generic
 

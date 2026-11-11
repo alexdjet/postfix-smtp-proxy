@@ -1,4 +1,3 @@
-user1@miroznai.loc     [smtp.provider1.com]
-user2@miroznai.loc     [smtp.provider2.com]
-@example.com           [smtp.provider3.com]
-
+user@miroznai.loc       [smtp.gmail.com]:26
+admin@miroznai.lan      [smtp.yandex.ru]:27
+@miroznai.com           [smtp.provider4.lan]:28

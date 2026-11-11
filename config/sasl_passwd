@@ -1,4 +1,4 @@
-[smtp.provider1.com] userA:passA
-[smtp.provider2.com] userB:passB
-[smtp.provider3.com] userC:passC
+[smtp.gmail.com]        userA:passA
+[smtp.provider2.lan]    userB:passB
+[smtp.provider3.lan]    userC:passC
 
