@@ -30,7 +30,9 @@ if [ -f /etc/postfix/generic ]; then
 fi
 
 
-
+ETC_DIR="/var/spool/postfix/etc"
+mkdir -p "$ETC_DIR"
+cp /etc/resolv.conf "$ETC_DIR/resolv.conf"
 
 postfix set-permissions
 postfix check

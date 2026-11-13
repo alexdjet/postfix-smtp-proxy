@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     postfix \
     ca-certificates \
     bash \
+    curl \
     cron \
     && rm -rf /var/lib/apt/lists/*
 

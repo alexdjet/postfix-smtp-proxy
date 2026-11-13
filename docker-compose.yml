@@ -1,4 +1,4 @@
-version: '2'
+#version: '2'
 services:
   mail-server:
     build: .
@@ -7,8 +7,11 @@ services:
       - ./var/spool/postfix:/var/spool/postfix:rw
     privileged: true
     restart: unless-stopped
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
+      - 77.88.8.1
+      - 77.88.8.8
     ports:
       - "8025:25"
-      # - "587:587"
-    #extra_hosts:
-    #  - "miroznai.loc:172.18.0.2"
+      - "8587:587"

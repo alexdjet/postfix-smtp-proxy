@@ -1,3 +1,3 @@
-user@miroznai.loc       [smtp.gmail.com]:26
-admin@miroznai.lan      [smtp.yandex.ru]:27
-@miroznai.com           [smtp.provider4.lan]:28
+miroznai@example.ru        [smtp.gmail.com]:587
+lito@ido.example.ru        [smtp.yandex.ru]:587
+@miroznai.com           [smtp.provider4.lan]:25
