@@ -1,3 +1,4 @@
-miroznai@example.ru        [smtp.gmail.com]:587
-lito@ido.example.ru        [smtp.yandex.ru]:587
-@miroznai.com           [smtp.provider4.lan]:25
+@companyname.lan              [smtp.gmail.com]:587
+@companyname.ru               [smtp.yandex.ru]:587
+@companyname.loc              [smtp.gmail.com]:587
+@companyname.com              [smtp.yandex.ru]:587

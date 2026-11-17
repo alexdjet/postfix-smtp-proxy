@@ -1,5 +1,5 @@
-myhostname = mail.miroznai.loc
-mydomain = miroznai.loc
+myhostname = mail.companyname.loc
+mydomain = companyname.loc
 myorigin = $mydomain
 
 mydestination = $myhostname
@@ -23,12 +23,14 @@ sender_dependent_relayhost_maps = hash:/etc/postfix/sender_relay
 
 smtp_sender_dependent_authentication = yes
 
+
+
 # TLS для входящих
 smtpd_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
 smtpd_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
 smtpd_use_tls=yes
 smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
-smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
+
 
 # SASL и TLS для исходящих
 smtp_sasl_auth_enable = yes
@@ -38,13 +40,15 @@ smtp_tls_security_level = encrypt
 smtp_tls_mandatory_protocols = !SSLv2,!SSLv3,!TLSv1,!TLSv1.1
 smtp_tls_ciphers = high
 smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
+smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
+smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
 
 mynetworks = 127.0.0.0/8 192.168.65.0/24
 mailbox_size_limit = 0
 recipient_delimiter = +
 inet_interfaces = all
 inet_protocols = ipv4
-smtp_generic_maps = hash:/etc/postfix/generic
+#smtp_generic_maps = hash:/etc/postfix/generic
 maillog_file = /var/log/mail.log
 minimal_backoff_time = 3600s
 maximal_backoff_time = 21600s

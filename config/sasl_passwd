@@ -1,3 +1,6 @@
 [smtp.gmail.com]:587        user4@gmail.loc:yyyy-yyyy-yyyy-yyyy
 [smtp.yandex.ru]:587        user4@yandex.ru:yyyy-yyyy-yyyy-yyyy
-[smtp.provider4.lan]:25     userB:passB
+[smtp.provider1.lan]:25     userA:passA
+[smtp.provider2.lan]:25     userB:passB
+[smtp.provider3.lan]:25     userB:passB
+[smtp.provider4.lan]:25     userC:passC
