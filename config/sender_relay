@@ -1,4 +1,6 @@
-@companyname.lan              [smtp.gmail.com]:587
-@companyname.ru               [smtp.yandex.ru]:587
-@companyname.loc              [smtp.gmail.com]:587
-@companyname.com              [smtp.yandex.ru]:587
+alert@external.lan [smtp.gmail.com]:587
+info@external.lan [smtp.yandex.ru]:587
+@mail.ru [smtp.mail.ru]:587
+@rambler.ru [smtp.rambler.ru]:587
+@mail.me.com [smtp.mail.me.com]:587
+@mail.yahoo.com [smtp.mail.yahoo.com]:587
